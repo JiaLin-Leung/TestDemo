@@ -1,0 +1,51 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/show_letter"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="#F1F1F1"
+        android:gravity="center_vertical"
+        android:paddingLeft="12dp"
+        android:textSize="16dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF">
+
+        <jiangsu.tbkt.teacher.view.CircleImageView
+            android:id="@+id/userface"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="6dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="6dp"
+            android:src="@drawable/head" />
+
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="14dp"
+            android:textSize="16dp"
+            android:textColor="#333333"
+            android:layout_toRightOf="@id/userface"
+            android:gravity="center"
+            android:text="username" />
+
+        <CheckBox
+            android:id="@+id/cb_stu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="36dp"
+            android:clickable="false"
+            android:focusable="false" />
+    </RelativeLayout>
+</LinearLayout>

@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="jiangsu.tbkt.teacher"
+    android:installLocation="auto">
+
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="getui.permission.GetuiService.com.tbkt.teacher_eng" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <!--在sdcard中创建/删除文件的权限 -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <application
+        android:hardwareAccelerated="true"
+        android:name="jiangsu.tbkt.teacher.application.MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme">
+        <!--android:supportsRtl="true"-->
+
+        <!--欢迎页面-->
+        <activity
+            android:name="jiangsu.tbkt.teacher.activity.WelcomeActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!--登陆-->
+        <activity
+            android:name="jiangsu.tbkt.teacher.activity.LoginActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+
+        <!--忘记密码-->
+        <activity
+            android:name="jiangsu.tbkt.teacher.activity.FindPassActivity"
+            android:launchMode="standard"
+            android:screenOrientation="portrait" />
+
+        <!--主界面-->
+        <activity
+            android:name="jiangsu.tbkt.teacher.activity.MainActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <!--设置姓名界面-->
+        <activity
+            android:name="jiangsu.tbkt.teacher.activity.SetNameActivity"
+            android:launchMode="standard"
+            android:screenOrientation="portrait" />
+
+        <!--设置密码界面-->
+        <activity
+            android:name="jiangsu.tbkt.teacher.activity.SetPasswordActivity"
+            android:launchMode="standard"
+            android:screenOrientation="portrait" />
+
+        <!--用户建议-->
+        <activity
+            android:name="jiangsu.tbkt.teacher.activity.UserAdviceActivity"
+            android:launchMode="standard"
+            android:screenOrientation="portrait" />
+
+        <!--全屏播放-->
+        <activity
+            android:name="jiangsu.tbkt.teacher.activity.VideoAllScreenActivity"
+            android:launchMode="standard"
+            android:screenOrientation="landscape" />
+
+        <!--选择学校-->
+        <activity
+            android:name="jiangsu.tbkt.teacher.activity.SuppleSchoolActivity"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar"
+            android:launchMode="standard"
+            android:screenOrientation="portrait" />
+
+        <!--选择学校-->
+        <activity
+            android:name="jiangsu.tbkt.teacher.activity.ChoiceSchoolActivity"
+            android:launchMode="standard"
+            android:screenOrientation="portrait" />
+
+        <!--选择身份-->
+        <activity
+            android:name="jiangsu.tbkt.teacher.activity.ChoiceShenFenActivity"
+            android:launchMode="standard"
+            android:screenOrientation="portrait" />
+
+        <!--补充信息-->
+        <activity
+            android:name="jiangsu.tbkt.teacher.activity.SuppleInfoActivity"
+            android:launchMode="standard"
+            android:screenOrientation="portrait" />
+
+        <!--补充姓名-->
+        <activity
+            android:name="jiangsu.tbkt.teacher.activity.SuppleNameActivity"
+            android:launchMode="standard"
+            android:screenOrientation="portrait" />
+
+        <!--个人信息-->
+        <activity
+            android:name="jiangsu.tbkt.teacher.activity.MeActivity"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar"
+            android:launchMode="standard"
+            android:screenOrientation="portrait" />
+
+        <!--个人信息-->
+        <activity
+            android:name="jiangsu.tbkt.teacher.activity.WebActivity"
+            android:launchMode="standard"
+            android:screenOrientation="portrait" />
+
+        <!--个人信息-->
+        <activity
+            android:name="jiangsu.tbkt.teacher.activity.ChoiceSubjectActivity"
+            android:launchMode="standard"
+            android:screenOrientation="portrait" />
+
+        <!--发送通知页面-->
+        <activity
+            android:name="jiangsu.tbkt.teacher.activity.SendNotifyActivity"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar"
+            android:launchMode="standard"
+            android:screenOrientation="portrait" />
+
+        <!--班级详情页面-->
+        <activity
+            android:name="jiangsu.tbkt.teacher.activity.ClassDetailActivity"
+            android:launchMode="standard"
+            android:screenOrientation="portrait" />
+
+        <!--班级详情页面-->
+        <activity
+            android:name="jiangsu.tbkt.teacher.activity.SelectPictureActivity"
+            android:launchMode="standard"
+            android:screenOrientation="portrait" />
+
+        <!--班级详情页面-->
+        <activity
+            android:name="jiangsu.tbkt.teacher.activity.NotifysActivity"
+            android:launchMode="standard"
+            android:screenOrientation="portrait" />
+
+
+        <!--扫一扫界面-->
+        <activity
+            android:name="com.xys.libzxing.zxing.activity.CaptureActivity"
+            android:theme="@style/AppTheme"
+            android:launchMode="standard"
+            android:screenOrientation="portrait" />
+
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="595c519245297d2a290008ca" >
+        </meta-data>
+
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="TEACOUNTRY" />
+
+        <activity
+            android:name="jiangsu.tbkt.teacher.wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="tencent1106250470" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
+
+    </application>
+
+</manifest>

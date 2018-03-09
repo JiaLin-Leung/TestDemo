@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/video_player_ll_top"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent"
+    android:visibility="gone"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/tv_fanhui"
+        android:layout_width="48dp"
+        android:layout_height="30dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/white"
+        android:textSize="16dp"
+        android:text="返回"/>
+</LinearLayout>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:background="#f5f9ff"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_top_view" />
+
+    <ImageView
+        android:layout_marginTop="96dp"
+        android:layout_width="80dp"
+        android:layout_height="110dp"
+        android:src="@drawable/sup_info"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textColor="#333333"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:text="欢迎使用" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="你个人信息不完善,我们一起来补充下吧" />
+
+    <Button
+        android:id="@+id/bt_supple"
+        android:layout_width="wrap_content"
+        android:layout_height="42dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginTop="70dp"
+        android:background="@drawable/bigbutton"
+        android:textColor="@color/white"
+        android:textSize="16dp"
+        android:text="好的" />
+
+</LinearLayout>

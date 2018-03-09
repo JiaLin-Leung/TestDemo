@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F6F9FF"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_top_view" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="请选择你要加入的班级"
+        android:textColor="#5E89EF"
+        android:textSize="16dp" />
+
+    <LinearLayout
+        android:id="@+id/ll_city"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="#ffffff"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginLeft="14dp"
+            android:text="地市:"
+            android:textColor="#333333"
+
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/tv_city"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="选择地市"
+            android:textColor="#aaaaaa"
+            android:textSize="14dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="13dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="14dp"
+            android:src="@drawable/arrow" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#ebebeb" />
+
+    <LinearLayout
+        android:id="@+id/ll_school"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="#ffffff"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
+            android:text="学校:"
+            android:textColor="#333333"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/tv_school"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="选择学校"
+            android:textColor="#aaaaaa" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="13dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="14dp"
+            android:src="@drawable/arrow" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#ebebeb" />
+
+    <LinearLayout
+        android:id="@+id/ll_class"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="#ffffff"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
+            android:text="班级:"
+            android:textColor="#333333"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/tv_class"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="选择班级"
+            android:textColor="#aaaaaa" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="13dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="14dp"
+            android:src="@drawable/arrow" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/bt_submit"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginTop="56dp"
+        android:background="@drawable/bigbutton"
+        android:text="确定"
+        android:textColor="@color/white"
+        android:textSize="18dp" />
+</LinearLayout>

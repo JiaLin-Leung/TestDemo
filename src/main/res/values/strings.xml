@@ -1,0 +1,35 @@
+<resources>
+    <string-array name="prim_grade_five">
+        <item>一年级</item>
+        <item>二年级</item>
+        <item>三年级</item>
+        <item>四年级</item>
+        <item>五年级</item>
+    </string-array>
+
+    <string-array name="prim_grade_six">
+        <item>一年级</item>
+        <item>二年级</item>
+        <item>三年级</item>
+        <item>四年级</item>
+        <item>五年级</item>
+        <item>六年级</item>
+    </string-array>
+
+    <string-array name="grade_section_item">
+        <item>小学部</item>
+        <item>初中部</item>
+    </string-array>
+
+    <string-array name="grade_item">
+        <item>一年级</item>
+        <item>二年级</item>
+        <item>三年级</item>
+        <item>四年级</item>
+        <item>五年级</item>
+        <item>六年级</item>
+        <item>七年级</item>
+        <item>八年级</item>
+        <item>九年级</item>
+    </string-array>
+</resources>

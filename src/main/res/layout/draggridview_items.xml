@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jiangsu.tbkt.teacher.view.SquareLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/dragGridView_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/plugin_camera_no_pictures" />
+
+    <ImageView
+        android:id="@+id/dragGridView_del"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="6dp"
+        android:layout_marginTop="6dp"
+        android:src="@mipmap/dele" />
+
+</jiangsu.tbkt.teacher.view.SquareLayout>

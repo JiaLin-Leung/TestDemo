@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_top_view"/>
+
+    <ListView
+        android:id="@+id/lv_template"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:cacheColorHint="#00000000"
+        android:divider="#DCDCDC"
+        android:dividerHeight="1dp"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
+        android:listSelector="#00000000"
+        android:scrollbars="none"></ListView>
+
+    <!--<TextView-->
+        <!--android:id="@+id/tv1"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:padding="10dp"-->
+        <!--android:textSize="16dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="请同学们看第x课时的错题视频讲解，并订正错题，扫描错题二维码就可以观看了" />-->
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:background="#dcdcdc"-->
+        <!--/>-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/tv2"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textSize="16dp"-->
+        <!--android:padding="10dp"-->
+        <!--android:text="请同学们完成第x可是的拓展练习，扫描拓展练习的二维码就可以观看了" />-->
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:background="#dcdcdc"-->
+        <!--/>-->
+    <!--<TextView-->
+        <!--android:id="@+id/tv3"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textSize="16dp"-->
+        <!--android:padding="10dp"-->
+        <!--android:text="请同学们回家后看第x页，第x题的难题视频讲解，并完成拓展练习" />-->
+
+</LinearLayout>

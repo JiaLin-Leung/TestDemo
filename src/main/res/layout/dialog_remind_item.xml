@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/reminddialog_ll"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_bg"
+    android:orientation="vertical">
+
+    <!-- 提示标题 -->
+    <RelativeLayout
+        android:layout_width="300dp"
+        android:layout_height="48dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+
+        <TextView
+            android:id="@+id/reminddialog_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="5dp"
+            android:text="更新啦"
+            android:textColor="#333333"
+            android:textSize="16dp" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="300dp"
+        android:layout_height="1dp"
+        android:background="#ebebeb" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- 信息栏：可以添加一些文字或者view展示的 -->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white">
+
+            <LinearLayout
+                android:id="@+id/reminddialog_view_ll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="invisible">
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/reminddialog_message_rl"
+                android:layout_width="300dp"
+                android:layout_height="80dp"
+                android:gravity="center"
+                android:padding="15dp">
+
+                <TextView
+                    android:id="@+id/reminddialog_message_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="left|top"
+                    android:text="信息梳理"
+                    android:textColor="#333333"
+                    android:textSize="14dp" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="300dp"
+            android:layout_height="1dp"
+            android:background="#ebebeb"
+            android:visibility="visible" />
+        <!-- 底部按钮栏 -->
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/reminddialog_cancle"
+                style="@style/remindDialog_btn_style"
+                android:background="@null"
+                android:textColor="#333333"
+                android:textSize="16dp" />
+
+            <View
+                android:id="@+id/reminddialog_bottom_split_first"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#ebebeb"
+                android:visibility="visible" />
+
+            <Button
+                android:id="@+id/reminddialog_middle"
+                style="@style/remindDialog_btn_style"
+                android:background="@null"
+                android:textColor="#5e89ef"
+                android:textSize="16dp" />
+
+            <View
+                android:id="@+id/reminddialog_bottom_split_second"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#ebebeb"
+                android:visibility="visible" />
+
+            <Button
+                android:id="@+id/reminddialog_sure"
+                style="@style/remindDialog_btn_style"
+                android:background="@null"
+                android:textColor="#5e89ef"
+                android:textSize="16dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

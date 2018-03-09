@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">同步课堂教师江苏版</string>
+    <string name="applicationId">com.tbkt.teacher_eng</string>
+
+    <!--debug
+        等于 1   测试模式
+        等于 2   开发模式
+        等于 3   线上模式
+        等于 4   正式模式
+        -->
+    <string name="debug">1</string>
+
+    <!--模拟正式测试服务器  http://mapistutest.tbkt.cn-->
+    <string name="test_api_url">http://mapi.rcm.tbkt.cn </string>
+
+    <!--开发服务器-->
+    <string name="dev_api_url">http://192.168.0.36:8005</string>
+
+    <!--测试网址-->
+    <string name="test">http://mapi.betam.tbkt.cn</string>
+
+    <!--正式服务器-->
+    <string name="api_url">http://mapi.m.tbkt.cn</string>
+
+
+    <!--新建正式服务器-->
+    <string name="stu_api_url">http://mapistu2.tbkt.cn</string>
+
+</resources>
