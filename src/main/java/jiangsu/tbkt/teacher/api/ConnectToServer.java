@@ -33,6 +33,7 @@ import java.util.Map;
 
 import jiangsu.tbkt.teacher.R;
 import jiangsu.tbkt.teacher.activity.LoginActivity;
+import jiangsu.tbkt.teacher.activity.WebActivity;
 import jiangsu.tbkt.teacher.application.PreferencesManager;
 import jiangsu.tbkt.teacher.application.ResultCode;
 import jiangsu.tbkt.teacher.bean.ResultBean;
@@ -326,7 +327,7 @@ public class ConnectToServer {
                                 if (bean.getError().equals("no_user")) {// 用户会话过期，调转到登录页面
                                     PreferencesManager.getInstance().putString("isExist1", "0");
                                     PreferencesManager.getInstance().putString("sessionid", "");
-                                    if (mContext != null) jumpPage(mContext, LoginActivity.class);
+                                    if (mContext != null) jumpPage(mContext, WebActivity.class);
                                 } else {
                                     if (mConnCallBack != null) mConnCallBack.onFailBack(bean);
                                 }

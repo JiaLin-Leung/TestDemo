@@ -46,7 +46,7 @@ public class WelcomeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-        systemInfoUrl = "https://appconfig.m.jxtbkt.cn/system/info?flag=1&code=320000&platform=3&version="
+        systemInfoUrl = "https://appconfig.m.jxtbkt.cn/system/info?flag=3&code=320000&platform=3&version="
                 + Tools.getAppVersion(this)
                 + "&user_id=" + PreferencesManager.getInstance().getInt("user_id", 0);
         Log.e("syw", "url:" + systemInfoUrl);
@@ -203,6 +203,7 @@ public class WelcomeActivity extends BaseActivity {
             jumpToPage(MainActivity.class, null, true);
         } else {
             jumpToPage(WebActivity.class, null, true);
+//            jumpToPage(LoginActivity.class, null, true);
         }
     }
 

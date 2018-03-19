@@ -193,7 +193,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     } else {
                         isExit = false;
                     }
-                }else if (str.contains("ys_playaudio")) {
+                }else if (str.contains("ys_playaudio,")) {
                     String audio_url = str.substring(str.indexOf(",") + 1, str.length());
                     initAudio();
                     playAudio(audio_url);

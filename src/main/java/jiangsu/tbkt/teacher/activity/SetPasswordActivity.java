@@ -149,7 +149,7 @@ public class SetPasswordActivity extends BaseActivity implements View.OnClickLis
             public void onSuccess(Object object) {
                 MyToastUtils.toastText(SetPasswordActivity.this,"密码修改成功,请重新登录");
                 AppManager.getAppManager().finishSpecailActivity(MainActivity.class);
-                Intent intent=new Intent(SetPasswordActivity.this,LoginActivity.class);
+                Intent intent=new Intent(SetPasswordActivity.this,WebActivity.class);
                 startActivity(intent);
             }
 

@@ -19,16 +19,25 @@ android {
 //    32   2.2.5合并宿迁江苏项目，添加切换身份
 //    33   2.2.6去掉和教育登录
 //    34   2.2.7进入app时网络提示（未添加完善姓名及检测功能，未添加权限检测功能）
+//    35   2.2.8修改登录页面
     defaultConfig {
         applicationId "jiangsu.tbkt.teacher"
         minSdkVersion 16
         targetSdkVersion 21
-        versionCode 34
-        versionName "2.2.7"
+        versionCode 35
+        versionName "2.2.8"
         ndk {
             abiFilters "armeabi", "armeabi-v7a", "x86_64"
         }
     }
+
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+
     buildTypes {
         release {
             minifyEnabled false

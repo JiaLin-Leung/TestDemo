@@ -2,6 +2,7 @@ package jiangsu.tbkt.teacher.activity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 
 import org.xwalk.core.XWalkPreferences;
@@ -115,5 +116,13 @@ public class WebActivity extends BaseActivity {
                 }
             }
         }, "appobject");
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            exitBy2Click();      //调用双击退出函数
+        }
+        return false;
     }
 }
