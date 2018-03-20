@@ -47,7 +47,6 @@
             android:orientation="vertical">
 
             <RelativeLayout
-                android:visibility="gone"
                 android:id="@+id/set_subject"
                 style="@style/RL_m_48"
                 android:layout_marginTop="10dp">

@@ -215,20 +215,22 @@ public class MeActivity extends BaseActivity implements View.OnClickListener {
             kjBitmap.display(iv_head, manageBean.getPortrait());
         }
 
+//        syw 2018/3/20 不判断是不是宿迁，只保留江苏。显示选择学科，取消修改姓名修改密码，通知
+        iv_head.setClickable(false);
         if (manageBean.getIs_suqian()==0){
 //            非宿迁用户
-            iv_head.setClickable(false);
-            set_name.setVisibility(View.GONE);
-            set_pwd.setVisibility(View.GONE);
-            set_person.setVisibility(View.GONE);
-            set_subject.setVisibility(View.VISIBLE);
+//            iv_head.setClickable(false);
+//            set_name.setVisibility(View.GONE);
+//            set_pwd.setVisibility(View.GONE);
+//            set_person.setVisibility(View.GONE);
+//            set_subject.setVisibility(View.VISIBLE);
         }else{
 //            宿迁用户
-            iv_head.setClickable(true);
-            set_name.setVisibility(View.VISIBLE);
-            set_pwd.setVisibility(View.VISIBLE);
-            set_person.setVisibility(View.VISIBLE);
-            set_subject.setVisibility(View.GONE);
+//            iv_head.setClickable(true);
+//            set_name.setVisibility(View.VISIBLE);
+//            set_pwd.setVisibility(View.VISIBLE);
+//            set_person.setVisibility(View.VISIBLE);
+//            set_subject.setVisibility(View.GONE);
         }
 //        syw 设置教师名字
         tv_name.setText(manageBean.getName());
