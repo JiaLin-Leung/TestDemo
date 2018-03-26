@@ -142,7 +142,8 @@ public class MeActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void initListener() {
-        iv_head.setOnClickListener(this);
+        //取消头像点击功能
+//        iv_head.setOnClickListener(this);
         set_name.setOnClickListener(this);
         set_pwd.setOnClickListener(this);
         set_person.setOnClickListener(this);
