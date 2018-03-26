@@ -22,21 +22,28 @@ import okhttp3.OkHttpClient;
 public class WebActivity extends BaseActivity {
     private MyXwalkview webview;
     private OkHttpClient mHttpClient;
+    String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web);
-        webview = (MyXwalkview) findViewById(R.id.webview);
+//        webview = (MyXwalkview) findViewById(R.id.webview);
 
         initWebview();
-        String url= PreferencesManager.getInstance().getString("other_login_url","https://edu.10086.cn/test-sso/login?service=https%3A%2F%2Fedu.10086.cn%2Ftest-oauth%2Foauth%2Fauthorize%3Fresponse_type%3Dcode%26client_id%3DaMNxVV16%26redirect_uri%3Dhttp%253A%252F%252Fgoqg.beta.tbkt.cn%253Ffrom%253Dwebstu1");
-        url=url+"?t=t";
-        Log.e("syw","url:"+url);
-        webview.load(url, null);
+
+//        url = PreferencesManager.getInstance().getString("other_login_url","https://edu.10086.cn/test-sso/login?service=https%3A%2F%2Fedu.10086.cn%2Ftest-oauth%2Foauth%2Fauthorize%3Fresponse_type%3Dcode%26client_id%3DaMNxVV16%26redirect_uri%3Dhttp%253A%252F%252Fgoqg.beta.tbkt.cn%253Ffrom%253Dwebstu1");
+//        url=url+"?t=t";
+//        Log.e("syw","url:"+url);
+//        webview.load(url, null);
     }
 
     private void initWebview() {
+        url = PreferencesManager.getInstance().getString("other_login_url","https://edu.10086.cn/test-sso/login?service=https%3A%2F%2Fedu.10086.cn%2Ftest-oauth%2Foauth%2Fauthorize%3Fresponse_type%3Dcode%26client_id%3DaMNxVV16%26redirect_uri%3Dhttp%253A%252F%252Fgoqg.beta.tbkt.cn%253Ffrom%253Dwebstu1");
+        url=url+"?t=t";
+        Log.e("syw","url:"+url);
+
+        webview = (MyXwalkview) findViewById(R.id.webview);
         //添加对javascript支持
         XWalkPreferences.setValue("enable-javascript", true);
         //开启调式,支持谷歌浏览器调式
@@ -110,12 +117,18 @@ public class WebActivity extends BaseActivity {
                         @Override
                         public void run() {
                             MyToastUtils.toastText(WebActivity.this,token);
-                            finish();
+                            webview=null;
+                            initWebview();
+//                            webview.load(url, null);
+
+//                            finish();
                         }
                     });
                 }
             }
         }, "appobject");
+
+        webview.load(url, null);
     }
 
     @Override
