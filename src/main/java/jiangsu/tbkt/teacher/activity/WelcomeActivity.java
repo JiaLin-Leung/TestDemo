@@ -202,8 +202,21 @@ public class WelcomeActivity extends BaseActivity {
         if (isExist.equals("1")) {// 0为退出状态  1为登录状态
             jumpToPage(MainActivity.class, null, true);
         } else {
-            jumpToPage(WebActivity.class, null, true);
+//            jumpToPage(WebActivity.class, null, true);
 //            jumpToPage(LoginActivity.class, null, true);
+            Intent intent = new Intent(this,WebActivity.class);
+            startActivityForResult(intent,10010);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case 10010:
+                Intent intent = new Intent(this,WebActivity.class);
+                startActivityForResult(intent,10010);
+                break;
         }
     }
 

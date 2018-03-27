@@ -152,7 +152,6 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:visibility="gone"
                 android:id="@+id/set_person"
                 style="@style/RL_m_48"
                 android:layout_marginTop="10dp">
