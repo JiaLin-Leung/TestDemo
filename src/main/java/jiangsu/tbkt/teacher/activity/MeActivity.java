@@ -55,6 +55,8 @@ import jiangsu.tbkt.teacher.object.ResultBeanObject;
 import jiangsu.tbkt.teacher.utils.Constant;
 import jiangsu.tbkt.teacher.utils.DialogUtil;
 import jiangsu.tbkt.teacher.utils.MyToastUtils;
+import jiangsu.tbkt.teacher.utils.PermUtils;
+import jiangsu.tbkt.teacher.utils.PopUtils;
 import jiangsu.tbkt.teacher.utils.Tools;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -94,6 +96,7 @@ public class MeActivity extends BaseActivity implements View.OnClickListener {
     private VersionCheck versionCheck;
     private ImageView top_btnback;
     private SharedPreferences prefs;
+    private TextView tvTitleName;
 
 
     @Override
@@ -139,6 +142,7 @@ public class MeActivity extends BaseActivity implements View.OnClickListener {
         set_diandu = (RelativeLayout) findViewById(R.id.set_diandu);
 
         set_subject = (RelativeLayout) findViewById(R.id.set_subject);
+        tvTitleName = (TextView) findViewById(R.id.tv_title_me);
     }
 
     private void initListener() {
@@ -235,6 +239,7 @@ public class MeActivity extends BaseActivity implements View.OnClickListener {
         }
 //        syw 设置教师名字
         tv_name.setText(manageBean.getName());
+        tvTitleName.setText(manageBean.getName());
 
         String is_show = PreferencesManager.getInstance().getString("is_show", "1");
 //        syw 全部不显示
@@ -297,7 +302,12 @@ public class MeActivity extends BaseActivity implements View.OnClickListener {
             //拍照获取头像
             case R.id.tv_paizhao:
                 popupWindow.dismiss();
-                takePhotoForHead();
+                if (PermUtils.checkCameraPermission(MeActivity.this)) {
+                    takePhotoForHead();
+                } else {
+                    PopUtils.showCameraPopwindow(MeActivity.this);
+                    return;
+                }
                 break;
             //取消设置头像
             case R.id.tv_quxiao:

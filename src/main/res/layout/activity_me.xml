@@ -12,14 +12,15 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="110dp"
+        android:layout_height="140dp"
         android:background="@color/common_bg">
 
         <RelativeLayout
+            android:id="@+id/layout_head"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="10dp">
 
             <ImageView
                 android:layout_width="80dp"
@@ -33,7 +34,19 @@
                 android:layout_height="70dp"
                 android:layout_centerInParent="true"
                 android:src="@drawable/head" />
+
         </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_title_me"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:text="用户姓名"
+            android:textColor="@color/white"
+            android:textSize="16dp" />
     </RelativeLayout>
 
     <ScrollView
@@ -78,10 +91,10 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:visibility="gone"
                 android:id="@+id/set_name"
                 style="@style/RL_m_48"
-                android:layout_marginTop="1dp">
+                android:layout_marginTop="1dp"
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/iv1"
@@ -121,10 +134,10 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:visibility="gone"
                 android:id="@+id/set_pwd"
                 style="@style/RL_m_48"
-                android:layout_marginTop="1dp">
+                android:layout_marginTop="1dp"
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/iv2"
@@ -185,9 +198,9 @@
 
             <RelativeLayout
                 android:id="@+id/set_detail"
-                android:visibility="gone"
                 style="@style/RL_m_48"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/iv_detail"

@@ -20,7 +20,7 @@ android {
 //    33   2.2.6去掉和教育登录
 //    34   2.2.7进入app时网络提示（未添加完善姓名及检测功能，未添加权限检测功能）
 //    35   2.2.8修改登录页面
-//    36   2.2.9修改登录页面
+//    36   2.2.9隐藏选择身份，增加姓名展示；增加权限判断
     defaultConfig {
         applicationId "jiangsu.tbkt.teacher"
         minSdkVersion 16
