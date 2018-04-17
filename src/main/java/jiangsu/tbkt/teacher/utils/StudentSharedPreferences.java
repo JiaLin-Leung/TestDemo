@@ -28,7 +28,7 @@ public class StudentSharedPreferences {
         SharedPreferences sharedPreferences = null;
         String propertyValue = "";
         try {
-            sharedPreferences = context.getSharedPreferences("isExist1", Context.MODE_PRIVATE);
+            sharedPreferences = context.getSharedPreferences("isExist", Context.MODE_PRIVATE);
             propertyValue = sharedPreferences.getString(propertyName, "0");
         } catch (Exception e) {
             e.printStackTrace();
@@ -53,7 +53,7 @@ public class StudentSharedPreferences {
         Editor editor = null;
         boolean isSuccess = false;
         try {
-            sharedPreferences = context.getSharedPreferences("isExist1", Context.MODE_PRIVATE);
+            sharedPreferences = context.getSharedPreferences("isExist", Context.MODE_PRIVATE);
             editor = sharedPreferences.edit(); //获取编辑器
             editor.putString(propertyName, propertyValue);
 

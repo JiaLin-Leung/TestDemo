@@ -21,12 +21,13 @@ android {
 //    34   2.2.7进入app时网络提示（未添加完善姓名及检测功能，未添加权限检测功能）
 //    35   2.2.8修改登录页面
 //    36   2.2.9隐藏选择身份，增加姓名展示；增加权限判断
+//    37   2.2.10更换证书；第三方拉起传值；升级覆盖安装，重新登录；修复bug
     defaultConfig {
         applicationId "jiangsu.tbkt.teacher"
         minSdkVersion 16
         targetSdkVersion 21
-        versionCode 36
-        versionName "2.2.9"
+        versionCode 37
+        versionName "2.2.10"
         ndk {
             abiFilters "armeabi", "armeabi-v7a", "x86_64"
         }

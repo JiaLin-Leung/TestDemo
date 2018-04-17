@@ -25,6 +25,7 @@ import jiangsu.tbkt.teacher.utils.NetworkStatueUtil;
 import jiangsu.tbkt.teacher.utils.Tools;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -40,18 +41,21 @@ public class WelcomeActivity extends BaseActivity {
     private String arg1 = "";
     private String platform = "";
     private String token1;
+    private String appToken;//第三方拉起数据
+    private String userType;//第三方拉起数据
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
-
+        appToken = getIntent().getStringExtra("appToken");
+        userType = getIntent().getStringExtra("userType");
         systemInfoUrl = "https://appconfig.m.jxtbkt.cn/system/info?flag=1&code=320000&platform=3&version="
                 + Tools.getAppVersion(this)
                 + "&user_id=" + PreferencesManager.getInstance().getInt("user_id", 0);
         Log.e("syw", "url:" + systemInfoUrl);
         initOkHttp();
-        copyDataToLocal("tbkt.cer");
+        copyDataToLocal("tbkt_20180408.cer");
 
         if (!NetworkStatueUtil.isConnectInternet(this)) {
             MyToastUtils.toastText(this, "网络不可用,请检查网络设置");
@@ -127,7 +131,7 @@ public class WelcomeActivity extends BaseActivity {
                             Toast.makeText(WelcomeActivity.this, urlGetBean.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
-                }else{
+                } else {
                     PreferencesManager.getInstance().putString("api", urlGetBean.getData().getHosts().getApi());//存储公共域名
                     PreferencesManager.getInstance().putString("apisx", urlGetBean.getData().getHosts().getApisx());//存储数学域名
                     PreferencesManager.getInstance().putString("apisx2", urlGetBean.getData().getHosts().getApisx2());//存储数学域名
@@ -191,31 +195,46 @@ public class WelcomeActivity extends BaseActivity {
             super.handleMessage(msg);
             switch (msg.what) {
                 case 1000:
-                    jumpToPage();
+                    if (appToken == null || userType == null) {
+                        jumpToPage();
+                    } else {
+                        //第三方拉起获取之后请求token值，而后判断跳转
+                        getTBKTToken();
+                    }
                     break;
             }
         }
     };
 
     private void jumpToPage() {
-        String isExist = PreferencesManager.getInstance().getString("isExist1", "0");
-        if (isExist.equals("1")) {// 0为退出状态  1为登录状态
-            jumpToPage(MainActivity.class, null, true);
+        //获取最新的版本号与本地存储的版本号对比，判断页面跳转
+        int oldVersionCode = PreferencesManager.getInstance().getInt("version", Tools.getAppVersionCode(WelcomeActivity.this) - 1);
+        int newVersionCode = Tools.getAppVersionCode(WelcomeActivity.this);
+        if (oldVersionCode == newVersionCode) {
+            Log.e("lsq", "版本相同");
+            //获取登录状态，判断页面跳转
+            String isExist = PreferencesManager.getInstance().getString("isExist", "0");
+            if (isExist.equals("1")) {// 0为退出状态  1为登录状态
+                jumpToPage(MainActivity.class, null, true);
+
+            } else {
+                Intent intent = new Intent(this, WebActivity.class);
+                startActivityForResult(intent, 10010);
+            }
         } else {
-//            jumpToPage(WebActivity.class, null, true);
-//            jumpToPage(LoginActivity.class, null, true);
-            Intent intent = new Intent(this,WebActivity.class);
-            startActivityForResult(intent,10010);
+            Log.e("lsq", "版本不同");
+            Intent intent = new Intent(this, WebActivity.class);
+            startActivityForResult(intent, 10010);
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode){
+        switch (requestCode) {
             case 10010:
-                Intent intent = new Intent(this,WebActivity.class);
-                startActivityForResult(intent,10010);
+                Intent intent = new Intent(this, WebActivity.class);
+                startActivityForResult(intent, 10010);
                 break;
         }
     }
@@ -224,5 +243,104 @@ public class WelcomeActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         hashMap = null;
+    }
+
+    private String username;
+    private String tbkt_token;
+    private String user_id;
+
+    /**
+     *根据第三方传值获取tbkt_token
+     */
+    private void getTBKTToken() {
+
+        final Gson gson = new Gson();
+
+        //Form表单格式的参数传递
+        FormBody formBody = new FormBody
+                .Builder()
+                .add("appToken", appToken)//设置参数名称和参数值
+                .add("userType", userType)
+                .build();
+        Request request = new Request
+                .Builder()
+                .post(formBody)//Post请求的参数传递
+                .url("http://gojs.jxtbkt.com/app/")
+                .build();
+        mHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+                //此方法运行在子线程中，不能在此方法中进行UI操作。
+                final TokenBean bean = gson.fromJson(response.body().string(), TokenBean.class);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (bean.getResponse().equals("ok")) {
+                            tbkt_token = bean.getData().getTbkt_token();
+                            user_id = bean.getData().getUser_id();
+                            username = bean.getData().getUsername();
+                            PreferencesManager.getInstance().putInt("user_id", Integer.parseInt(user_id));
+                            PreferencesManager.getInstance().putString("sessionid", tbkt_token);
+                            jumpToPage(MainActivity.class, null, true);
+                        } else {
+                            jumpToPage();
+                        }
+                    }
+                });
+            }
+        });
+
+    }
+
+    class TokenBean {
+
+        private String message;
+        private String next;
+        private String response;
+        private String error;
+        private Bean data;
+
+        class Bean {
+            private String username;
+            private String tbkt_token;
+            private String user_id;
+
+            public String getUsername() {
+                return username;
+            }
+
+            public String getTbkt_token() {
+                return tbkt_token;
+            }
+
+            public String getUser_id() {
+                return user_id;
+            }
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public String getNext() {
+            return next;
+        }
+
+        public String getResponse() {
+            return response;
+        }
+
+        public String getError() {
+            return error;
+        }
+
+        public Bean getData() {
+            return data;
+        }
     }
 }

@@ -71,7 +71,7 @@ public class ConnectToServer {
         HttpClient mHttpClient=null;
         InputStream ins = null;
         try {
-            ins = mContext.getAssets().open("tbkt.cer"); //下载的证书放到项目中的assets目录中
+            ins = mContext.getAssets().open("tbkt_20180408.cer"); //下载的证书放到项目中的assets目录中
 
             CertificateFactory cerFactory = null;
             cerFactory = CertificateFactory.getInstance("X.509");
@@ -325,7 +325,7 @@ public class ConnectToServer {
                                 }
                             } else {
                                 if (bean.getError().equals("no_user")) {// 用户会话过期，调转到登录页面
-                                    PreferencesManager.getInstance().putString("isExist1", "0");
+                                    PreferencesManager.getInstance().putString("isExist", "0");
                                     PreferencesManager.getInstance().putString("sessionid", "");
                                     if (mContext != null) jumpPage(mContext, WebActivity.class);
                                 } else {

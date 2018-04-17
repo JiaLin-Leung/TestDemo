@@ -898,7 +898,7 @@ public class MeActivity extends BaseActivity implements View.OnClickListener {
         //.queryAccountValue("account"));
                 /*this.finish();
                 android.os.Process.killProcess(android.os.Process.myPid());*/
-        PreferencesManager.getInstance().putString("isExist1", "0");
+        PreferencesManager.getInstance().putString("isExist", "0");
         PreferencesManager.getInstance().putString("sessionid", "");
         PreferencesManager.getInstance().putInt("user_id", 0);
         PreferencesManager.getInstance().putString("tea_name", "");

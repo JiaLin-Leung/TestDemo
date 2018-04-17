@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
@@ -33,6 +34,7 @@ import org.xwalk.core.XWalkSettings;
 import org.xwalk.core.XWalkView;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import jiangsu.tbkt.teacher.R;
 import jiangsu.tbkt.teacher.application.PreferencesManager;
@@ -40,6 +42,11 @@ import jiangsu.tbkt.teacher.utils.MyToastUtils;
 import jiangsu.tbkt.teacher.utils.NetworkStatueUtil;
 import jiangsu.tbkt.teacher.utils.Tools;
 import jiangsu.tbkt.teacher.view.MyXwalkview;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Created by song on 2016/9/28 0028.
@@ -47,6 +54,7 @@ import jiangsu.tbkt.teacher.view.MyXwalkview;
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private static final int YS_SHARE = 7000;
+    private static String BaseUrl;
     private String HOME_URL;
     public static boolean isFlush = false;
     public static MyXwalkview web_home;
@@ -68,7 +76,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             switch (msg.what) {
                 case 1000:
                     HOME_URL = PreferencesManager.getInstance().getString("vuetea", "https://teacomjs.m.jxtbkt.com") + "/?t=" + System.currentTimeMillis() + "&tbkt_token="
-                            + PreferencesManager.getInstance().getString("sessionid", "")+"&platform=3&version="
+                            + PreferencesManager.getInstance().getString("sessionid", "") + "&platform=3&version="
                             + Tools.getAppVersion(MainActivity.this);
                     loadUrl(HOME_URL);
                     break;
@@ -79,7 +87,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     startActivity(intent);
                     break;
                 case 3000:
-                    PreferencesManager.getInstance().putString("isExist1", "0");
+                    PreferencesManager.getInstance().putString("isExist", "0");
                     Intent i = new Intent(MainActivity.this, WebActivity.class);
                     startActivity(i);
                     finish();
@@ -99,12 +107,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        version=Tools.getAppVersion(MainActivity.this);
-
+        version = Tools.getAppVersion(MainActivity.this);
 //        syw保留登录状态
-        PreferencesManager.getInstance().putString("isExist1", "1");//登录成功，保存登录状态
+        PreferencesManager.getInstance().putString("isExist", "1");//登录成功，保存登录状态
+        //保存当前版本号
+        PreferencesManager.getInstance().putInt("version", Tools.getAppVersionCode(MainActivity.this));
 //        PreferencesManager.getInstance().putString("vuetea", "http://teacom.m.jxtbkt.com");
         versionCheck();
+
+//        BaseUrl = "http://192.168.7.116:9008";
+        BaseUrl = PreferencesManager.getInstance().getString("vuetea", "https://teacomjs.m.jxtbkt.com");
+
 
         fail_layout = (LinearLayout) findViewById(R.id.fail_layout);
         reload_btn = (Button) findViewById(R.id.reload_btn);
@@ -193,11 +206,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     } else {
                         isExit = false;
                     }
-                }else if (str.contains("ys_playaudio,")) {
+                } else if (str.contains("ys_playaudio,")) {
                     String audio_url = str.substring(str.indexOf(",") + 1, str.length());
                     initAudio();
                     playAudio(audio_url);
-                }else if (str.contains("ys_playaudiopause")) {
+                } else if (str.contains("ys_playaudiopause")) {
                     if (musicPlayer != null) {
                         musicPlayer.pause();
                     }
@@ -216,8 +229,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             }
         }, "appobject");
 
-        HOME_URL = PreferencesManager.getInstance().getString("vuetea", "https://teacomjs.m.jxtbkt.com") + "/?t=" + System.currentTimeMillis()
-                + "&tbkt_token=" + PreferencesManager.getInstance().getString("sessionid", "")+"&platform=3&version="
+        HOME_URL = BaseUrl + "/?t=" + System.currentTimeMillis()
+                + "&tbkt_token=" + PreferencesManager.getInstance().getString("sessionid", "") + "&platform=3&version="
                 + Tools.getAppVersion(MainActivity.this);
         ;
         Log.e("syw", "onCreate：HOME_URL:" + HOME_URL);
@@ -289,14 +302,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         @Override
         public void onResult(SHARE_MEDIA platform) {
-            isFlush=false;
+            isFlush = false;
             web_home.load("javascript:shareover();", null);
             Toast.makeText(MainActivity.this, platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
-            isFlush=false;
+            isFlush = false;
             if (t != null) {
                 Log.e("syw", "t.getMessage():" + t.getMessage());
             }
@@ -304,14 +317,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         @Override
         public void onCancel(SHARE_MEDIA platform) {
-            isFlush=false;
+            isFlush = false;
 //            Toast.makeText(MainActivity.this, platform + " 分享取消了", Toast.LENGTH_SHORT).show();
         }
     };
 
     private void checkOut() {
         // 保存退出状态 0为退出状态 1为登录状态
-        PreferencesManager.getInstance().putString("isExist1", "0");
+        PreferencesManager.getInstance().putString("isExist", "0");
         PreferencesManager.getInstance().putInt("user_id", 0);
         PreferencesManager.getInstance().putString("sessionid", "");
         PreferencesManager.getInstance().putString("tea_name", "");
@@ -328,9 +341,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         super.onResume();
         Log.e("syw", "onResume--isExit:" + isExit);
         if (isFlush) {
-            HOME_URL = PreferencesManager.getInstance().getString("vuetea", "https://teacomjs.m.jxtbkt.com") + "/?t=" + System.currentTimeMillis() + "&tbkt_token="
-                    + PreferencesManager.getInstance().getString("sessionid", "")+"&platform=3&version="
-                    + Tools.getAppVersion(MainActivity.this);;
+            HOME_URL = BaseUrl+ "/?t=" + System.currentTimeMillis() + "&tbkt_token="
+                    + PreferencesManager.getInstance().getString("sessionid", "") + "&platform=3&version="
+                    + Tools.getAppVersion(MainActivity.this);
+            ;
 
             Log.e("syw", "onResume：HOME_URL:" + HOME_URL);
             loadUrl(HOME_URL);
@@ -474,7 +488,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 Log.e("syw", "onKeyDown--isExit:" + isExit);
             } else {
                 vvv = xWalkNavigationHistory.getCurrentIndex();
-                Log.e("syw","vvv:"+vvv);
+                Log.e("syw", "vvv:" + vvv);
                 if (vvv == 0) {
                     exitBy2Click();
                 }
@@ -485,10 +499,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     public static String version;
+
     public static void loadUrlFromMe(String url) {
         if ("HOME_URL".equals(url)) {
-            web_home.load(PreferencesManager.getInstance().getString("vuetea", "https://teacomjs.m.jxtbkt.com") + "/?t=" + System.currentTimeMillis() + "&tbkt_token="
-                    + PreferencesManager.getInstance().getString("sessionid", "")+"&platform=3&version="
+            web_home.load(BaseUrl + "/?t=" + System.currentTimeMillis() + "&tbkt_token="
+                    + PreferencesManager.getInstance().getString("sessionid", "") + "&platform=3&version="
                     + version, null);
             isExit = false;
         } else {
@@ -513,4 +528,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             web_home.onDestroy();
         }
     }
+
+
 }
