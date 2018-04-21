@@ -26,8 +26,8 @@ android {
         applicationId "jiangsu.tbkt.teacher"
         minSdkVersion 16
         targetSdkVersion 21
-        versionCode 38
-        versionName "2.2.11"
+        versionCode 37
+        versionName "2.2.10"
         ndk {
             abiFilters "armeabi", "armeabi-v7a", "x86_64"
         }
