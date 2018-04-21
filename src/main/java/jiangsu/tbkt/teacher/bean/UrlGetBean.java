@@ -159,11 +159,16 @@ public class UrlGetBean implements Serializable {
             private String userurl;
 
             private String other_login_url;
+            private String get_token_from_ws;
 
 //          syw 阿里云迁移之后设置页面教材、教辅、点读机修改url
             private String vueteayy;
             private String vueteasx;
             private String vueteacom;
+
+            public String getGet_token_from_ws() {
+                return get_token_from_ws;
+            }
 
             public void setVueteayy(String vueteayy) {
                 this.vueteayy = vueteayy;

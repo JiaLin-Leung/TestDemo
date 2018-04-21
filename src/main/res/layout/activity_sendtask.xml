@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f5f9ff"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_top_view" />
+
+    <include layout="@layout/view_load_fail" />
+
+
+    <!--android:background="@drawable/shape_bg"-->
+
+    <EditText
+        android:id="@+id/et_notify"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/white"
+        android:gravity="top"
+        android:hint="输入通知内容" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingTop="10dp"
+                android:text="上传照片 最多9张"
+                android:textColor="#aaaaaa"
+                android:textSize="16dp" />
+
+
+            <jiangsu.tbkt.teacher.view.DragGridView
+                android:id="@+id/dragGridView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:cacheColorHint="@android:color/transparent"
+                android:gravity="center"
+                android:horizontalSpacing="10dp"
+                android:listSelector="@android:color/transparent"
+                android:numColumns="3"
+                android:paddingLeft="10dp"
+                android:paddingBottom="10dp"
+                android:paddingTop="16dp"
+                android:paddingRight="10dp"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="10dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/white"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="10dp"
+                    android:text="活动结束时间"
+                    android:textColor="#525252"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="截止时间"
+                    android:paddingRight="20dp"
+                    android:layout_toLeftOf="@id/iv_arrow"
+                    android:textColor="#5c89f0"
+                    android:textSize="18dp" />
+
+                <ImageView
+                    android:id="@+id/iv_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/arrow" />
+
+            </RelativeLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="收件人"
+                android:textColor="#333333"
+                android:textSize="20dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="#DCDCDC" />
+
+            <ListView
+                android:id="@+id/lv_classes"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:cacheColorHint="#00000000"
+                android:divider="#DCDCDC"
+                android:dividerHeight="1dp"
+                android:listSelector="#00000000"
+                android:scrollbars="none"></ListView>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

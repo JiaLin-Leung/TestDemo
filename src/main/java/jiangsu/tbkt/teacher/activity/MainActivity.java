@@ -26,6 +26,8 @@ import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
 import com.xys.libzxing.zxing.activity.CaptureActivity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xwalk.core.ClientCertRequest;
 import org.xwalk.core.XWalkNavigationHistory;
 import org.xwalk.core.XWalkPreferences;
@@ -34,10 +36,15 @@ import org.xwalk.core.XWalkSettings;
 import org.xwalk.core.XWalkView;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import jiangsu.tbkt.teacher.R;
+import jiangsu.tbkt.teacher.api.RequestServer;
+import jiangsu.tbkt.teacher.application.MyApplication;
 import jiangsu.tbkt.teacher.application.PreferencesManager;
+import jiangsu.tbkt.teacher.utils.Constant;
+import jiangsu.tbkt.teacher.utils.DateUtils;
 import jiangsu.tbkt.teacher.utils.MyToastUtils;
 import jiangsu.tbkt.teacher.utils.NetworkStatueUtil;
 import jiangsu.tbkt.teacher.utils.Tools;
@@ -224,6 +231,49 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         musicPlayer.release();
                         musicPlayer = null;
                     }
+                }else if (str.contains("ys_errorinfo")){
+//                    ys_errorinfo,type|module|error
+                    String[] split = str.split(",");
+                    String[] h5Message = split[1].split("|");
+                    String type=h5Message[0];
+                    String module= h5Message[1];
+                    String error= h5Message[2];
+                    if (NetworkStatueUtil.isConnectInternet(MainActivity.this)){
+                        uploadErrorMessage(type,module,error);
+                    }else{
+                        PreferencesManager.getInstance().putString("crashInfoH",error);
+                        PreferencesManager.getInstance().putString("module",module);
+                    }
+                }else if (str.contains("YS_OUTSIDE_TASK")){
+                    try{
+                        String[] split=str.split(",");
+                        String type=split[1];
+                        String content=split[2];
+                        if ("string".equals(content)){
+                            content="";
+                        }
+                        Intent intent=new Intent(MainActivity.this,SendTaskActivity.class);
+                        intent.putExtra("type",type);
+                        intent.putExtra("content",content);
+                        startActivity(intent);
+                    }catch (Exception e){
+                        Log.e("syw","e:"+e.getMessage());
+                    }
+
+                }else if (str.contains("ys_portrait")) {
+                    final String[] split=str.split(",");
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent=new Intent(MainActivity.this, VideoPortraitActivity.class);
+                            if (split.length==2){
+                                intent.putExtra("video_url",split[1]);
+                                startActivity(intent);
+                            }else{
+                                MyToastUtils.toastText(MainActivity.this,"视频路径为空");
+                            }
+                        }
+                    });
                 }
 
             }
@@ -237,8 +287,41 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         loadUrl(HOME_URL);
     }
 
+
+    private void uploadErrorMessage(String type,String module,String error) {
+        JSONObject params = new JSONObject();
+        String time = DateUtils.parseDate2Str(new Date(), DateUtils.YYYYMMDDHHMM);
+        try {
+            params.put("userid", PreferencesManager.getInstance().getInt("user_id",0));
+//            3表示安卓学生端
+            params.put("platform","4" );
+            params.put("module", module);
+//            2表示前端报错
+            params.put("type", "2");
+            params.put("error", error);
+            params.put("version", Tools.getAppVersion(MyApplication.getInstance()));
+            params.put("time", time);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.e("syw","前端上传错误信息params:"+params.toString());
+        RequestServer.crashUpload(MainActivity.this, Constant.crashInterf, params.toString(), new RequestServer.Callback() {
+            @Override
+            public void onSuccess(Object object) {
+                PreferencesManager.getInstance().putString("crashInfoH","");
+            }
+
+            @Override
+            public void onFail(Object object) {
+                PreferencesManager.getInstance().putString("crashInfoH","");
+            }
+        }, false, false, true);
+    }
+
+
     //    syw 播放h5传递的视频
     MediaPlayer musicPlayer;
+    private int playTime;
 
     private void initAudio() {
         if (musicPlayer == null) {
@@ -247,6 +330,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         musicPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
+                playTime = musicPlayer.getDuration();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        web_home.load("javascript:playtime('" + playTime + "');", null);
+                    }
+                });
                 mp.start();
             }
         });

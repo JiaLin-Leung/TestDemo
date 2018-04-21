@@ -519,6 +519,34 @@ public class RequestServer {
 
 
     /**
+     * 错误日志
+     */
+    public static void crashUpload(final Context context, String url, Object jsonParams, final Callback callback,
+                                   boolean isShowProgress, boolean isShowToast, boolean isPost) {
+        ConnectToServer.connectionServer(context, url, jsonParams, new ConnectToServer.ConnCallBack() {
+            @Override
+            public void onSuccessBack(ResultBean result) {
+                if (result != null) {
+                    if (callback != null) {
+                        callback.onSuccess(result);
+                    }
+                } else {
+                    if (callback != null) {
+                        callback.onFail(result);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailBack(ResultBean result) {
+                if (callback != null) {
+                    callback.onFail(result);
+                }
+            }
+        }, isShowProgress, isShowToast, isPost);
+    }
+
+    /**
      * 回调
      */
     public static interface Callback {

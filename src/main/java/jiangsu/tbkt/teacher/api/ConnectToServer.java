@@ -32,7 +32,6 @@ import java.security.cert.CertificateFactory;
 import java.util.Map;
 
 import jiangsu.tbkt.teacher.R;
-import jiangsu.tbkt.teacher.activity.LoginActivity;
 import jiangsu.tbkt.teacher.activity.WebActivity;
 import jiangsu.tbkt.teacher.application.PreferencesManager;
 import jiangsu.tbkt.teacher.application.ResultCode;

@@ -47,6 +47,8 @@ public class Constant {
     // syw 获取接口地址   需要修改
     public static String getInterInterf = "/system/hosts";
 
+    public static String crashInterf = "/account/test_error";
+
     // syw 登录接口
     public static String loginInterf = "/account/login/t";
 
@@ -112,5 +114,8 @@ public class Constant {
 
     //syw 上传头像url接口
 //    public static String getUrlInterf = "/account/uploadurl";
+
+    //上传图片保存
+    public static String savehuodongInterf = "/im/outside/task/send";
 
 }

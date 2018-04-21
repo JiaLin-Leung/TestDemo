@@ -147,6 +147,7 @@ public class WelcomeActivity extends BaseActivity {
                     PreferencesManager.getInstance().putString("vuetea", urlGetBean.getData().getHosts().getVuetea());//存储英语域名
                     PreferencesManager.getInstance().putString("vueteaxcps", urlGetBean.getData().getHosts().getVueteaxcps());//存储英语域名
                     PreferencesManager.getInstance().putString("qr", urlGetBean.getData().getHosts().getQr());//存储英语域名
+                    PreferencesManager.getInstance().putString("get_token_from_ws", urlGetBean.getData().getHosts().getGet_token_from_ws());//存储第三方拉起获取token域名
 
                     PreferencesManager.getInstance().putString("vueteayy", urlGetBean.getData().getHosts().getVueteayy());
                     PreferencesManager.getInstance().putString("vueteasx", urlGetBean.getData().getHosts().getVueteasx());
@@ -250,11 +251,12 @@ public class WelcomeActivity extends BaseActivity {
     private String user_id;
 
     /**
-     *根据第三方传值获取tbkt_token
+     * 根据第三方传值获取tbkt_token
      */
     private void getTBKTToken() {
 
         final Gson gson = new Gson();
+        String url = PreferencesManager.getInstance().getString("get_token_from_ws", "http://gojs.jxtbkt.com");
 
         //Form表单格式的参数传递
         FormBody formBody = new FormBody
@@ -265,7 +267,7 @@ public class WelcomeActivity extends BaseActivity {
         Request request = new Request
                 .Builder()
                 .post(formBody)//Post请求的参数传递
-                .url("http://gojs.jxtbkt.com/app/")
+                .url(url + "/app/")
                 .build();
         mHttpClient.newCall(request).enqueue(new Callback() {
             @Override
@@ -288,7 +290,10 @@ public class WelcomeActivity extends BaseActivity {
                             PreferencesManager.getInstance().putString("sessionid", tbkt_token);
                             jumpToPage(MainActivity.class, null, true);
                         } else {
-                            jumpToPage();
+                            String error = bean.getError();
+                            MyToastUtils.toastText(WelcomeActivity.this, error);
+                            Intent intent = new Intent(WelcomeActivity.this, WebActivity.class);
+                            startActivityForResult(intent, 10010);
                         }
                     }
                 });

@@ -209,6 +209,16 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:configChanges="orientation|keyboardHidden|screenSize"/>
 
+        <activity
+            android:name="jiangsu.tbkt.teacher.activity.SendTaskActivity"
+            android:launchMode="standard"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="jiangsu.tbkt.teacher.activity.VideoPortraitActivity"
+            android:launchMode="standard"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>
