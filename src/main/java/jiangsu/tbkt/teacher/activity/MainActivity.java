@@ -229,7 +229,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     if (musicPlayer != null) {
                         musicPlayer.stop();
                         musicPlayer.release();
-                        musicPlayer = null;
+                        musicPlayer = new MediaPlayer();
                     }
                 }else if (str.contains("ys_errorinfo")){
 //                    ys_errorinfo,type|module|error
@@ -346,8 +346,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             public void onCompletion(MediaPlayer mp) {
                 if (musicPlayer != null) {
                     musicPlayer.stop();
-                    musicPlayer.release();
-                    musicPlayer = null;
+//                    musicPlayer.release();
+//                    musicPlayer = null;
                 }
 //syw 回调h5的方法
                 runOnUiThread(new Runnable() {

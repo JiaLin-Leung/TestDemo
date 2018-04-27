@@ -7,6 +7,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -54,6 +55,7 @@ import jiangsu.tbkt.teacher.bean.VersionCheck;
 import jiangsu.tbkt.teacher.object.ResultBeanObject;
 import jiangsu.tbkt.teacher.utils.Constant;
 import jiangsu.tbkt.teacher.utils.DialogUtil;
+import jiangsu.tbkt.teacher.utils.FileUtils;
 import jiangsu.tbkt.teacher.utils.MyToastUtils;
 import jiangsu.tbkt.teacher.utils.PermUtils;
 import jiangsu.tbkt.teacher.utils.PopUtils;
@@ -536,19 +538,17 @@ public class MeActivity extends BaseActivity implements View.OnClickListener {
      * 拍照设置头像
      */
     private void takePhotoForHead() {
-        Intent intentFromCapture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // 判断存储卡是否可以用，可用进行存储
-        String state = Environment.getExternalStorageState();
-        if (state.equals(Environment.MEDIA_MOUNTED)) {
-            File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
-            File file = new File(path, IMAGE_FILE_NAME);
-            intentFromCapture.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
-        }
-        startActivityForResult(intentFromCapture, CAMERA_REQUEST_CODE);
+        Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        String fileName = System.currentTimeMillis() + ".png";
+        picture = FileUtils.getFile(fileName);
+        openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(picture));
+        openCameraIntent.putExtra(MediaStore.Images.Media.ORIENTATION, 0);
+        startActivityForResult(openCameraIntent, CAMERA_REQUEST_CODE);
     }
 
 
     private String picPath;
+    private File picture;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -558,9 +558,7 @@ public class MeActivity extends BaseActivity implements View.OnClickListener {
             // 判断存储卡是否可以用，可用进行存储
             String state = Environment.getExternalStorageState();
             if (state.equals(Environment.MEDIA_MOUNTED)) {
-                File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
-                File tempFile = new File(path, IMAGE_FILE_NAME);
-                startPhotoZoom(Uri.fromFile(tempFile));
+                startPhotoZoom(Uri.fromFile(picture));
             } else {
                 Toast.makeText(MeActivity.this, "未找到存储卡", Toast.LENGTH_SHORT).show();
             }
@@ -576,26 +574,26 @@ public class MeActivity extends BaseActivity implements View.OnClickListener {
                 if (cursor != null) {
                     int columnIndex = cursor.getColumnIndexOrThrow(pojo[0]);
                     cursor.moveToFirst();
-                    picPath = cursor.getString(columnIndex);
+                    picture = new File(cursor.getString(columnIndex));
 //                cursor.close();
                 }
-                if (picPath != null && (picPath.endsWith(".gif") || picPath.endsWith(".GIF"))) {
+                if ((picture.getAbsolutePath().endsWith(".gif") || picture.getAbsolutePath().endsWith(".GIF"))) {
                     MyToastUtils.toastText(MeActivity.this, "暂不支持gif图片");
                     return;
                 }
 
-                startPhotoZoom(data.getData());
+                startPhotoZoom(Uri.fromFile(picture));
             }
         }
         //图片修剪之后返回结果
         if (requestCode == RESULT_REQUEST_CODE) {
-            if (data != null) {
-                try {
-                    isResume = false;
-                    getImageToView(data);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            isResume = false;
+            BitmapFactory.Options opts = new BitmapFactory.Options();
+            Bitmap bitmap = BitmapFactory.decodeFile(picture.getPath(), opts);
+            try {
+                getImageToView(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -622,15 +620,17 @@ public class MeActivity extends BaseActivity implements View.OnClickListener {
         // outputX outputY 是裁剪图片宽高
         intent.putExtra("outputX", 340);
         intent.putExtra("outputY", 340);
-        intent.putExtra("return-data", true);
+        intent.putExtra("scale", true);
+        intent.putExtra("return-data", false);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+        intent.putExtra("noFaceDetection", false); // no face detection
         startActivityForResult(intent, RESULT_REQUEST_CODE);
     }
 
-    private void getImageToView(Intent data) throws IOException {
-        Bundle extras = data.getExtras();
-        if (extras != null) {
-            Bitmap photo = extras.getParcelable("data");
-            drawable = new BitmapDrawable(this.getResources(), photo);
+    private void getImageToView(Bitmap data) throws IOException {
+        if (data != null) {
+            drawable = new BitmapDrawable(this.getResources(), data);
             BitmapDrawable bd = (BitmapDrawable) drawable;
             Bitmap bm = bd.getBitmap();
             if (bm == null) {

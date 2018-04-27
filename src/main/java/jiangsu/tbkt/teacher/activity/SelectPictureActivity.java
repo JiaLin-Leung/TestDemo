@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -242,7 +243,11 @@ public class SelectPictureActivity extends BaseActivity implements FinalNumInter
         // // outputX outputY 是裁剪图片宽高
         intent.putExtra("outputX", FinalNumInter.PHOTO_ZOOM_OUTPUT_X);
         intent.putExtra("outputY", FinalNumInter.PHOTO_ZOOM_OUTPUT_Y);
-        intent.putExtra("return-data", true);
+        intent.putExtra("scale", true);
+        intent.putExtra("return-data", false);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+        intent.putExtra("noFaceDetection", false); // no face detection
         startActivityForResult(intent, PHOTO_RESOULT);
     }
 

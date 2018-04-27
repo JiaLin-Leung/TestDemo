@@ -2,6 +2,7 @@ package jiangsu.tbkt.teacher.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -632,9 +633,6 @@ public class SendNotifyActivity extends BaseActivity implements View.OnClickList
             return;
         }
         if (requestCode == PHOTO_RESOULT) {
-            if (data == null) {
-                return;
-            }
             dataSourceList.add(picture.getAbsolutePath());
             imageAdaper.setShowDel(false);
             imageAdaper.update(dataSourceList);
@@ -664,7 +662,11 @@ public class SendNotifyActivity extends BaseActivity implements View.OnClickList
         // // outputX outputY 是裁剪图片宽高
         intent.putExtra("outputX", FinalNumInter.PHOTO_ZOOM_OUTPUT_X);
         intent.putExtra("outputY", FinalNumInter.PHOTO_ZOOM_OUTPUT_Y);
-        intent.putExtra("return-data", true);
+        intent.putExtra("scale", true);
+        intent.putExtra("return-data", false);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+        intent.putExtra("noFaceDetection", false); // no face detection
         startActivityForResult(intent, PHOTO_RESOULT);
     }
 
