@@ -272,7 +272,14 @@ public class WelcomeActivity extends BaseActivity {
         mHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        MyToastUtils.toastText(WelcomeActivity.this,"网络错误，请重试");
+                        Intent intent = new Intent(WelcomeActivity.this, WebActivity.class);
+                        startActivityForResult(intent, 10010);
+                    }
+                });
             }
 
             @Override
