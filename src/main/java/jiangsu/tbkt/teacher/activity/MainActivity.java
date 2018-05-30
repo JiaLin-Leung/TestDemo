@@ -55,6 +55,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import static jiangsu.tbkt.teacher.utils.Tools.getAndroidVersion;
+
 /**
  * Created by song on 2016/9/28 0028.
  */
@@ -246,15 +248,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     }
                 }else if (str.contains("YS_OUTSIDE_TASK")){
                     try{
-                        String[] split=str.split(",");
-                        String type=split[1];
-                        String content=split[2];
-                        if ("string".equals(content)){
-                            content="";
+                        String type;
+                        String content;
+                        String string = str.substring(str.length() - 1, str.length());
+                        if (",".equals(string)) {
+                            type = str.substring(str.length() - 2, str.length() - 1);
+                            content = "";
+                        } else {
+                            String[] split = str.split(",", 1);
+                            type = split[1];
+                            content = split[2];
                         }
-                        Intent intent=new Intent(MainActivity.this,SendTaskActivity.class);
-                        intent.putExtra("type",type);
-                        intent.putExtra("content",content);
+                        Intent intent = new Intent(MainActivity.this, SendTaskActivity.class);
+                        intent.putExtra("type", type);
+                        intent.putExtra("content", content);
                         startActivity(intent);
                     }catch (Exception e){
                         Log.e("syw","e:"+e.getMessage());
@@ -272,6 +279,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                             }else{
                                 MyToastUtils.toastText(MainActivity.this,"视频路径为空");
                             }
+                        }
+                    });
+                } else if (str.contains("ys_settoken")) {
+                    String web_token = str.substring(str.indexOf(",") + 1);
+                    Log.e("syw", "web_token:" + web_token);
+                    PreferencesManager.getInstance().putString("sessionid", web_token);
+                } else if (str.contains("ys_version")) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            web_home.load("javascript:getVersionCode('" + getAndroidVersion() + "');", null);
                         }
                     });
                 }
@@ -546,7 +564,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     }
                 } else {
                     scanResult = PreferencesManager.getInstance().getString("vuestuxcps", "https://stuxcpjs.m.jxtbkt.com") + "/?tbkt_token="
-                            + PreferencesManager.getInstance().getString("sessionid", "");
+                            + PreferencesManager.getInstance().getString("sessionid", "")+ "&platfrom_id=3";
                 }
 
                 if (!scanResult.contains(qr)) {

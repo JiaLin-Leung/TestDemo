@@ -38,7 +38,6 @@ import jiangsu.tbkt.teacher.application.ResultCode;
 import jiangsu.tbkt.teacher.bean.ResultBean;
 import jiangsu.tbkt.teacher.object.ResultBeanObject;
 import jiangsu.tbkt.teacher.utils.CustomProgressDialog;
-import jiangsu.tbkt.teacher.utils.LogUtil;
 import jiangsu.tbkt.teacher.utils.NetworkStatueUtil;
 import jiangsu.tbkt.teacher.utils.Tools;
 
@@ -196,10 +195,6 @@ public class ConnectToServer {
      */
     public static String http_post(String url, Object object) throws IOException, URISyntaxException {
         url = BASE_URL + url;
-        LogUtil.showPrint("http_post:" + url);
-        if (!(object == null)) {
-            LogUtil.showPrint("http_post:" + object.toString());
-        }
 
         HttpClient httpClient = null;
         HttpPost httpPost = null;
@@ -398,14 +393,12 @@ public class ConnectToServer {
             @Override
             public void run() {
                 try {
-                    LogUtil.showError(ConnectToServer.class, "请求的url=" + BASE_URL + url);
                     String result = "";
                     if (isPost) {
                         result = http_post(url, jsonParams);
                     } else {
                         result = http_get(url, jsonParams);
                     }
-                    LogUtil.showError(ConnectToServer.class, "result:" + result);
                     Message msg = handler.obtainMessage(ResultCode.SUCCESS, result);
                     handler.sendMessage(msg);
                 } catch (Exception e) {

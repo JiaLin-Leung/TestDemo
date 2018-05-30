@@ -1,11 +1,24 @@
 package jiangsu.tbkt.teacher.activity;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -43,7 +56,7 @@ public class WelcomeActivity extends BaseActivity {
     private String token1;
     private String appToken;//第三方拉起数据
     private String userType;//第三方拉起数据
-
+    RelativeLayout layoutContent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,13 +69,35 @@ public class WelcomeActivity extends BaseActivity {
         Log.e("syw", "url:" + systemInfoUrl);
         initOkHttp();
         copyDataToLocal("tbkt_20180408.cer");
-
+        layoutContent = (RelativeLayout) findViewById(R.id.layout_content);
         if (!NetworkStatueUtil.isConnectInternet(this)) {
             MyToastUtils.toastText(this, "网络不可用,请检查网络设置");
             return;
         }
         getUrlData(systemInfoUrl);
     }
+
+
+    private void showPopWindow() {
+        View convertview = null;
+
+        convertview = View.inflate(WelcomeActivity.this, R.layout.pop_internet, null);
+        TextView tv_confirm = (TextView) convertview.findViewById(R.id.tv_confirm);
+        final PopupWindow checkOutWindow = new PopupWindow(convertview, ViewGroup.LayoutParams.MATCH_PARENT, -1, true);
+        checkOutWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        checkOutWindow.showAtLocation(layoutContent, Gravity.CENTER, 0, 0);
+        checkOutWindow.setAnimationStyle(R.style.popwindow_anim_style);
+        checkOutWindow.update();
+        tv_confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkOutWindow.dismiss();
+                getUrlData(systemInfoUrl);
+            }
+        });
+    }
+
+
 
     // 把数据库从assert文件里复制到手机
     private void copyDataToLocal(final String fileName) {
@@ -115,9 +150,12 @@ public class WelcomeActivity extends BaseActivity {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Message msg = new Message();
-                msg.what = 1000;
-                handler.sendMessageDelayed(msg, 2000);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        showPopWindow();
+                    }
+                });
             }
 
             @Override
@@ -128,7 +166,7 @@ public class WelcomeActivity extends BaseActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(WelcomeActivity.this, urlGetBean.getMessage(), Toast.LENGTH_SHORT).show();
+                            showPopWindow();
                         }
                     });
                 } else {
