@@ -233,21 +233,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         musicPlayer.release();
                         musicPlayer = new MediaPlayer();
                     }
-                }else if (str.contains("ys_errorinfo")){
+                } else if (str.contains("ys_errorinfo")) {
 //                    ys_errorinfo,type|module|error
                     String[] split = str.split(",");
                     String[] h5Message = split[1].split("|");
-                    String type=h5Message[0];
-                    String module= h5Message[1];
-                    String error= h5Message[2];
-                    if (NetworkStatueUtil.isConnectInternet(MainActivity.this)){
-                        uploadErrorMessage(type,module,error);
-                    }else{
-                        PreferencesManager.getInstance().putString("crashInfoH",error);
-                        PreferencesManager.getInstance().putString("module",module);
+                    String type = h5Message[0];
+                    String module = h5Message[1];
+                    String error = h5Message[2];
+                    if (NetworkStatueUtil.isConnectInternet(MainActivity.this)) {
+                        uploadErrorMessage(type, module, error);
+                    } else {
+                        PreferencesManager.getInstance().putString("crashInfoH", error);
+                        PreferencesManager.getInstance().putString("module", module);
                     }
-                }else if (str.contains("YS_OUTSIDE_TASK")){
-                    try{
+                } else if (str.contains("YS_OUTSIDE_TASK")) {
+                    try {
                         String type;
                         String content;
                         String string = str.substring(str.length() - 1, str.length());
@@ -263,21 +263,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         intent.putExtra("type", type);
                         intent.putExtra("content", content);
                         startActivity(intent);
-                    }catch (Exception e){
-                        Log.e("syw","e:"+e.getMessage());
+                    } catch (Exception e) {
+                        Log.e("syw", "e:" + e.getMessage());
                     }
 
-                }else if (str.contains("ys_portrait")) {
-                    final String[] split=str.split(",");
+                } else if (str.contains("ys_portrait")) {
+                    final String[] split = str.split(",");
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Intent intent=new Intent(MainActivity.this, VideoPortraitActivity.class);
-                            if (split.length==2){
-                                intent.putExtra("video_url",split[1]);
+                            Intent intent = new Intent(MainActivity.this, VideoPortraitActivity.class);
+                            if (split.length == 2) {
+                                intent.putExtra("video_url", split[1]);
                                 startActivity(intent);
-                            }else{
-                                MyToastUtils.toastText(MainActivity.this,"视频路径为空");
+                            } else {
+                                MyToastUtils.toastText(MainActivity.this, "视频路径为空");
                             }
                         }
                     });
@@ -306,13 +306,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
 
-    private void uploadErrorMessage(String type,String module,String error) {
+    private void uploadErrorMessage(String type, String module, String error) {
         JSONObject params = new JSONObject();
         String time = DateUtils.parseDate2Str(new Date(), DateUtils.YYYYMMDDHHMM);
         try {
-            params.put("userid", PreferencesManager.getInstance().getInt("user_id",0));
+            params.put("userid", PreferencesManager.getInstance().getInt("user_id", 0));
 //            3表示安卓学生端
-            params.put("platform","4" );
+            params.put("platform", "4");
             params.put("module", module);
 //            2表示前端报错
             params.put("type", "2");
@@ -322,16 +322,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.e("syw","前端上传错误信息params:"+params.toString());
+        Log.e("syw", "前端上传错误信息params:" + params.toString());
         RequestServer.crashUpload(MainActivity.this, Constant.crashInterf, params.toString(), new RequestServer.Callback() {
             @Override
             public void onSuccess(Object object) {
-                PreferencesManager.getInstance().putString("crashInfoH","");
+                PreferencesManager.getInstance().putString("crashInfoH", "");
             }
 
             @Override
             public void onFail(Object object) {
-                PreferencesManager.getInstance().putString("crashInfoH","");
+                PreferencesManager.getInstance().putString("crashInfoH", "");
             }
         }, false, false, true);
     }
@@ -449,7 +449,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         super.onResume();
         Log.e("syw", "onResume--isExit:" + isExit);
         if (isFlush) {
-            HOME_URL = BaseUrl+ "/?t=" + System.currentTimeMillis() + "&tbkt_token="
+            HOME_URL = BaseUrl + "/?t=" + System.currentTimeMillis() + "&tbkt_token="
                     + PreferencesManager.getInstance().getString("sessionid", "") + "&platform=3&version="
                     + Tools.getAppVersion(MainActivity.this);
             ;
@@ -558,13 +558,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 String qr = PreferencesManager.getInstance().getString("qr", "tbkt.cn");
                 if (!"xcp".equals(scanResult)) {
                     if (scanResult.contains("?")) {
-                        scanResult = scanResult + "&tbkt_token=" + PreferencesManager.getInstance().getString("sessionid", "");
+                        scanResult = scanResult + "&tbkt_token=" + PreferencesManager.getInstance().getString("sessionid", "") + "&platfrom_id=4&system_name=1";
                     } else {
-                        scanResult = scanResult + "?tbkt_token=" + PreferencesManager.getInstance().getString("sessionid", "");
+                        scanResult = scanResult + "?tbkt_token=" + PreferencesManager.getInstance().getString("sessionid", "") + "&platfrom_id=4&system_name=1";
                     }
                 } else {
                     scanResult = PreferencesManager.getInstance().getString("vuestuxcps", "https://stuxcpjs.m.jxtbkt.com") + "/?tbkt_token="
-                            + PreferencesManager.getInstance().getString("sessionid", "")+ "&platfrom_id=3";
+                            + PreferencesManager.getInstance().getString("sessionid", "") + "&platfrom_id=4&system_name=1";
                 }
 
                 if (!scanResult.contains(qr)) {

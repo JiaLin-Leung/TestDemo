@@ -22,6 +22,7 @@ android {
 //    35   2.2.8修改登录页面
 //    36   2.2.9隐藏选择身份，增加姓名展示；增加权限判断
 //    37   2.2.10更换证书；第三方拉起传值；升级覆盖安装，重新登录；修复bug
+//    38   2.2.11增加原生方法获取手机系统版本；增加原生方法获取新token值；安全性修改；增加config请求失败提示；
     defaultConfig {
         applicationId "jiangsu.tbkt.teacher"
         minSdkVersion 16
